@@ -14,7 +14,7 @@ export const AnimatedText: FC<AnimatedTextProps> = ({ text, className = "", styl
     offset: ["start 0.8", "end 0.2"],
   });
   
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);

@@ -22,7 +22,7 @@ export const FadeIn: FC<FadeInProps> = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "50px", amount: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);

@@ -2,6 +2,7 @@ import { FC, useRef } from "react";
 import { FadeIn } from "./FadeIn";
 import { SectionHeading } from "./SectionHeading";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect } from "react";
 
 // @ts-ignore
 import arsenalToolkit from "../assets/arsenal_toolkit.png";
@@ -134,6 +135,14 @@ export const TechnicalArsenalSection: FC = () => {
   const sphereY = useTransform(scrollYProgress, [0, 1], [-50, 70]);
   const cubeY = useTransform(scrollYProgress, [0, 1], [60, -50]);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section
       id="arsenal"
@@ -258,7 +267,7 @@ export const TechnicalArsenalSection: FC = () => {
 
 
                   <motion.div
-                    initial="hidden"
+                    initial={isMobile ? "visible" : "hidden"}
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
                     variants={{
