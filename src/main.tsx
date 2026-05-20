@@ -4,8 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
 
-// Determine the base path based on environment
-const basename = import.meta.env.DEV ? '/' : '/My-Portfolio/';
+// Automatically detect if we are on GitHub Pages or testing locally
+const isGitHubPages = window.location.hostname.includes("github.io");
+const basename = isGitHubPages ? "/My-Portfolio" : "/";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
