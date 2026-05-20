@@ -135,13 +135,7 @@ export const TechnicalArsenalSection: FC = () => {
   const sphereY = useTransform(scrollYProgress, [0, 1], [-50, 70]);
   const cubeY = useTransform(scrollYProgress, [0, 1], [60, -50]);
 
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  // removed unused mobile check
 
   return (
     <section
