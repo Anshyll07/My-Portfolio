@@ -137,10 +137,6 @@ export const ProjectsSection: FC = () => {
 
                   <motion.div
                     className={`absolute ${imgPosition} z-[1] pointer-events-none hidden sm:block`}
-                    initial={{ opacity: 0, scale: 0.7 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, delay: 0.3 + idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <motion.img
                       animate={{ y: [0, -12, 0] }}
@@ -228,10 +224,7 @@ export const ProjectsSection: FC = () => {
                       <div className="w-full max-w-lg h-px mb-5 overflow-hidden">
                         <motion.div
                           className="h-full origin-left"
-                          initial={{ scaleX: 0 }}
-                          whileInView={{ scaleX: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.8, delay: 0.3 + idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+
                           style={{
                             background: `linear-gradient(to right, ${accent}50, transparent)`,
                           }}

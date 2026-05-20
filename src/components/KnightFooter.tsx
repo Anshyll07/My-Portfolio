@@ -18,10 +18,6 @@ export const KnightFooter: FC = () => {
 
 
       <motion.div
-        initial={{ opacity: 0, x: 60, y: 40 }}
-        whileInView={{ opacity: 1, x: 0, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         className="absolute bottom-0 right-0 z-0 pointer-events-none hidden sm:block"
       >
         <motion.div

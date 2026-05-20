@@ -158,10 +158,6 @@ export const TechnicalArsenalSection: FC = () => {
 
 
       <motion.div
-        initial={{ opacity: 0, x: -60 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
         className="absolute left-[-6%] sm:left-[1%] top-[6%] z-[1] pointer-events-none hidden sm:block"
       >
         <motion.div style={{ y: toolkitY, rotate: toolkitRotate }}>
@@ -181,10 +177,6 @@ export const TechnicalArsenalSection: FC = () => {
 
 
       <motion.div
-        initial={{ opacity: 0, x: 50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         className="absolute right-[-6%] sm:right-[2%] top-[3%] z-[1] pointer-events-none hidden md:block"
       >
         <motion.div style={{ y: sphereY }}>
@@ -204,10 +196,6 @@ export const TechnicalArsenalSection: FC = () => {
 
 
       <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
         className="absolute left-[-4%] sm:left-[5%] bottom-[3%] z-[1] pointer-events-none hidden md:block"
       >
         <motion.div style={{ y: cubeY }}>
@@ -266,30 +254,12 @@ export const TechnicalArsenalSection: FC = () => {
                   </div>
 
 
-                  <motion.div
-                    initial={isMobile ? "visible" : "hidden"}
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    variants={{
-                      hidden: {},
-                      visible: {
-                        transition: { staggerChildren: 0.06, delayChildren: 0.1 },
-                      },
-                    }}
+                  <div
                     className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4"
                   >
                     {items.map((item) => (
-                      <motion.div
+                      <div
                         key={item.name}
-                        variants={{
-                          hidden: { opacity: 0, y: 20, scale: 0.95 },
-                          visible: {
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                            transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] },
-                          },
-                        }}
                       >
                         <div className="group relative overflow-hidden rounded-[16px] sm:rounded-[20px] border border-white/[0.07] bg-white/[0.02] backdrop-blur-md transition-all duration-300 hover:border-white/[0.12]"
                           style={{
@@ -340,9 +310,9 @@ export const TechnicalArsenalSection: FC = () => {
                             </span>
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
-                  </motion.div>
+                  </div>
                 </div>
               </FadeIn>
             );
