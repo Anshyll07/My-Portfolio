@@ -114,40 +114,39 @@ export const ServicesSection: FC = () => {
   };
 
   return (
-    <section id="expertise" className="relative z-20 rounded-t-[32px] bg-[#FFFFFF] px-5 py-20 sm:rounded-t-[50px] sm:px-8 sm:py-24 md:rounded-t-[60px] md:px-10 md:py-32">
+    <section id="expertise" className="relative z-20 rounded-t-[32px] bg-black px-6 py-24 sm:rounded-t-[50px] sm:px-12 sm:py-32 md:rounded-t-[60px] md:px-20 md:py-40 border-t border-white/[0.05]">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         <SectionHeading
           eyebrow="Services / 03"
           title="Expertise"
-          tone="light"
           align="center"
           meta="Focused capabilities for automation, frontend experiences, and visual production."
-          className="mb-12 sm:mb-20 md:mb-28"
+          className="mb-16 sm:mb-24 md:mb-32"
         />
 
         <div className="w-full max-w-5xl">
           {SERVICES.map((service) => (
-            <div key={service.id} className="border-t border-[#0C0C0C]/15 last:border-b overflow-hidden">
+            <div key={service.id} className="border-t border-white/10 last:border-b overflow-hidden">
               <div className="group">
                 <button
                   onClick={() => setOpenId(openId === service.id ? null : service.id)}
-                  className="flex w-full flex-col items-start gap-4 py-7 text-left transition-colors hover:bg-black/5 sm:py-10 md:flex-row md:items-center md:gap-10 md:py-12"
+                  className="flex w-full flex-col items-start gap-4 py-8 text-left transition-colors hover:bg-white/[0.02] sm:py-12 md:flex-row md:items-center md:gap-12 md:py-16"
                 >
-                  <span className="min-w-[88px] font-black leading-none text-[#0C0C0C] md:min-w-[120px]"
-                    style={{ fontSize: "clamp(2rem, 16vw, 100px)" }}>
+                  <span className="min-w-[88px] font-serif leading-none text-white/20 md:min-w-[120px]"
+                    style={{ fontSize: "clamp(2.5rem, 12vw, 80px)" }}>
                     {service.id}
                   </span>
-                  <div className="flex w-full flex-1 items-center justify-between gap-4">
-                    <h3 className="font-medium uppercase leading-tight text-[#0C0C0C]"
-                      style={{ fontSize: "clamp(1rem, 7vw, 2.1rem)" }}>
+                  <div className="flex w-full flex-1 items-center justify-between gap-6">
+                    <h3 className="font-medium uppercase tracking-wide leading-tight text-white/90 group-hover:text-primary transition-colors"
+                      style={{ fontSize: "clamp(1.1rem, 5vw, 1.8rem)" }}>
                       {service.name}
                     </h3>
                     <motion.div
                       animate={{ rotate: openId === service.id ? 180 : 0 }}
                       transition={{ duration: 0.3 }}
-                      className="text-black/30"
+                      className="text-white/30 group-hover:text-primary/70 transition-colors"
                     >
-                      <ChevronDown size={32} />
+                      <ChevronDown size={28} strokeWidth={1.5} />
                     </motion.div>
                   </div>
                 </button>
@@ -170,19 +169,19 @@ export const ServicesSection: FC = () => {
                           initial={{ y: 20, opacity: 0 }}
                           animate={{ y: 0, opacity: 1 }}
                           transition={{ delay: 0.1, duration: 0.4 }}
-                          className="flex flex-col gap-4"
+                          className="flex flex-col gap-6"
                         >
-                          <p className="max-w-2xl text-base font-light leading-relaxed text-[#0C0C0C] opacity-80 sm:text-lg md:text-xl">
+                          <p className="max-w-2xl text-base font-light leading-relaxed text-white/60 sm:text-lg md:text-xl">
                             {service.shortPara}
                           </p>
                           <div className="flex flex-wrap gap-2">
                             {service.technologies.map((tech, idx) => (
                               <motion.span
                                 key={tech}
-                                initial={{ scale: 0.8, opacity: 0 }}
+                                initial={{ scale: 0.95, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ delay: 0.2 + (idx * 0.05), duration: 0.3 }}
-                                className="px-3 py-1 bg-black/5 rounded-full text-xs font-semibold uppercase tracking-wider text-black/60"
+                                className="px-4 py-1.5 border border-white/[0.08] bg-white/[0.02] rounded-full text-[10px] sm:text-xs font-medium uppercase tracking-widest text-white/50"
                               >
                                 {tech}
                               </motion.span>
@@ -196,10 +195,10 @@ export const ServicesSection: FC = () => {
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.4, duration: 0.3 }}
                             onClick={() => handleOpenPreview(service)}
-                            className="group/btn flex w-fit items-center gap-3 rounded-full bg-[#0C0C0C] px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-[#B600A8] sm:px-8 sm:py-4 sm:text-sm"
+                            className="group/btn flex w-fit items-center gap-4 rounded-full border border-white/10 bg-white/[0.03] px-6 py-3 text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-white/80 transition-all hover:bg-primary hover:text-black hover:border-primary sm:px-8 sm:py-4"
                           >
                             Show Preview ({service.previews?.length})
-                            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover/btn:scale-110">
+                            <div className="flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10 transition-transform group-hover/btn:scale-110 group-hover/btn:bg-black/20">
                               {service.previews?.[0]?.type === "video" ? (
                                 <Play size={14} fill="currentColor" />
                               ) : (
@@ -319,7 +318,7 @@ export const ServicesSection: FC = () => {
                       <button
                         key={idx}
                         onClick={() => setActivePreviewIndex(idx)}
-                        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${idx === activePreviewIndex ? 'bg-[#B600A8] w-8' : 'bg-white/20'}`}
+                        className={`w-2 h-2 rounded-full transition-all duration-500 ${idx === activePreviewIndex ? 'bg-primary w-8' : 'bg-white/20 hover:bg-white/40'}`}
                       />
                     ))}
                   </div>

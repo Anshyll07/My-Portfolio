@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&family=Kanit:ital,wght@0,300;0,400;0,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=Kanit:ital,wght@0,300;0,400;0,500;1,700;1,900&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-primary: #DEDBC8;
-  --font-serif: "Instrument Serif", serif;
+  --font-serif: "DM Serif Display", serif;
   --font-kanit: "Kanit", sans-serif;
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-display: "Syne", sans-serif;
@@ -31,16 +31,10 @@
 
 @layer components {
   .hero-heading {
-    background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+    background: linear-gradient(180deg, #E1DABE 0%, #BBCCD7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .glass-card {
-    background: rgba(12, 12, 12, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(215, 226, 234, 0.2);
   }
 
   .vertical-rail {
@@ -54,57 +48,15 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(182, 0, 168, 0.3) 25%,
-      rgba(118, 33, 176, 0.4) 50%,
-      rgba(182, 0, 168, 0.3) 75%,
+      rgba(222, 219, 200, 0.12) 25%,
+      rgba(222, 219, 200, 0.18) 50%,
+      rgba(222, 219, 200, 0.12) 75%,
       transparent 100%
     );
   }
 
 
-  .gradient-border-card {
-    position: relative;
-  }
 
-  .gradient-border-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: conic-gradient(
-      from var(--gradient-angle, 0deg),
-      transparent 30%,
-      rgba(182, 0, 168, 0.5) 50%,
-      rgba(118, 33, 176, 0.5) 60%,
-      transparent 70%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    animation: rotateBorder 4s linear infinite;
-    pointer-events: none;
-  }
-
-  .gradient-border-card:hover::before {
-    opacity: 1;
-  }
-
-  @property --gradient-angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-  }
-
-  @keyframes rotateBorder {
-    to {
-      --gradient-angle: 360deg;
-    }
-  }
 }
 
 @layer utilities {
@@ -131,10 +83,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(182, 0, 168, 0.3);
+  background: rgba(222, 219, 200, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(182, 0, 168, 0.5);
+  background: rgba(222, 219, 200, 0.3);
 }

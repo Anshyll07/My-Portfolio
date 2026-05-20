@@ -1,15 +1,6 @@
-import { FC, useRef } from "react";
+import { FC } from "react";
 import { FadeIn } from "./FadeIn";
 import { SectionHeading } from "./SectionHeading";
-import { motion, useScroll, useTransform } from "framer-motion";
-
-
-// @ts-ignore
-import arsenalToolkit from "../assets/arsenal_toolkit.png";
-// @ts-ignore
-import arsenalSphere from "../assets/arsenal_sphere.png";
-// @ts-ignore
-import arsenalCube from "../assets/arsenal_cube.png";
 
 type TechItem = {
   name: string;
@@ -124,88 +115,17 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export const TechnicalArsenalSection: FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const toolkitY = useTransform(scrollYProgress, [0, 1], [80, -60]);
-  const toolkitRotate = useTransform(scrollYProgress, [0, 1], [-4, 4]);
-  const sphereY = useTransform(scrollYProgress, [0, 1], [-50, 70]);
-  const cubeY = useTransform(scrollYProgress, [0, 1], [60, -50]);
-
-  // removed unused mobile check
 
   return (
     <section
       id="arsenal"
-      ref={sectionRef}
-      className="relative overflow-hidden bg-[#0C0C0C] px-5 py-20 sm:px-8 sm:py-24 md:px-10 md:py-28"
+      className="relative overflow-hidden bg-[#0C0C0C] px-5 py-24 sm:px-8 sm:py-32 md:px-10 md:py-40"
     >
 
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-56 left-1/2 -translate-x-1/2 h-[520px] w-[980px] rounded-full bg-gradient-to-r from-cyan-500/8 via-indigo-500/6 to-fuchsia-500/8 blur-3xl" />
-        <div className="absolute -bottom-56 left-[10%] h-[520px] w-[720px] rounded-full bg-gradient-to-r from-fuchsia-500/8 via-sky-500/6 to-cyan-500/8 blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.08] bg-noise mix-blend-overlay" />
-      </div>
+      <div className="absolute inset-0 opacity-[0.03] bg-noise pointer-events-none" />
 
 
-      <motion.div
-        className="absolute left-[-6%] sm:left-[1%] top-[6%] z-[1] pointer-events-none hidden sm:block"
-      >
-        <motion.div style={{ y: toolkitY, rotate: toolkitRotate }}>
-          <motion.img
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            src={arsenalToolkit}
-            alt=""
-            className="w-[280px] md:w-[380px] lg:w-[460px] xl:w-[520px] opacity-[0.3]"
-            style={{ filter: "drop-shadow(0 0 50px rgba(34,211,238,0.15))" }}
-            loading="lazy"
-            decoding="async"
-          />
-          <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[60%] h-[30%] bg-cyan-500/8 blur-[80px] rounded-full" />
-        </motion.div>
-      </motion.div>
 
-
-      <motion.div
-        className="absolute right-[-6%] sm:right-[2%] top-[3%] z-[1] pointer-events-none hidden md:block"
-      >
-        <motion.div style={{ y: sphereY }}>
-          <motion.img
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            src={arsenalSphere}
-            alt=""
-            className="w-[220px] lg:w-[320px] xl:w-[400px] opacity-[0.25]"
-            style={{ filter: "drop-shadow(0 0 40px rgba(34,211,238,0.12))" }}
-            loading="lazy"
-            decoding="async"
-          />
-          <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[60%] h-[25%] bg-indigo-500/6 blur-[60px] rounded-full" />
-        </motion.div>
-      </motion.div>
-
-
-      <motion.div
-        className="absolute left-[-4%] sm:left-[5%] bottom-[3%] z-[1] pointer-events-none hidden md:block"
-      >
-        <motion.div style={{ y: cubeY }}>
-          <motion.img
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            src={arsenalCube}
-            alt=""
-            className="w-[200px] lg:w-[280px] xl:w-[340px] opacity-[0.25]"
-            style={{ filter: "drop-shadow(0 0 40px rgba(139,92,246,0.12))" }}
-            loading="lazy"
-            decoding="async"
-          />
-          <div className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 w-[60%] h-[25%] bg-violet-500/6 blur-[60px] rounded-full" />
-        </motion.div>
-      </motion.div>
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
 
@@ -231,17 +151,13 @@ export const TechnicalArsenalSection: FC = () => {
 
                   <div className="flex items-center gap-3 mb-6">
                     <span
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] border backdrop-blur-md"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] border"
                       style={{
                         color: catColor,
                         borderColor: `${catColor}30`,
-                        background: `${catColor}10`,
+                        background: `${catColor}08`,
                       }}
                     >
-                      <span
-                        className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: catColor }}
-                      />
                       {category}
                     </span>
                     <div className="flex-1 h-px max-w-xs" style={{ background: `linear-gradient(to right, ${catColor}30, transparent)` }} />
@@ -255,24 +171,12 @@ export const TechnicalArsenalSection: FC = () => {
                       <div
                         key={item.name}
                       >
-                        <div className="group relative overflow-hidden rounded-[16px] sm:rounded-[20px] border border-white/[0.07] bg-white/[0.02] backdrop-blur-md transition-all duration-300 hover:border-white/[0.12]"
-                          style={{
-                            boxShadow: "0 20px 60px rgba(0,0,0,0.4), 0 0 0 0.5px rgba(255,255,255,0.04)",
-                          }}
-                        >
+                        <div className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04]">
 
                           <div
-                            className="absolute left-0 top-0 bottom-0 w-[2px] opacity-40 group-hover:opacity-80 transition-opacity duration-400"
+                            className="absolute left-0 top-0 bottom-0 w-px opacity-40 group-hover:opacity-80 transition-opacity duration-400"
                             style={{
                               background: `linear-gradient(to bottom, transparent, ${item.color}, transparent)`,
-                            }}
-                          />
-
-
-                          <div
-                            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                            style={{
-                              background: `radial-gradient(circle at 50% 50%, ${item.color}08, transparent 70%)`,
                             }}
                           />
 

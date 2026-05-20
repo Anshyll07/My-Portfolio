@@ -23,7 +23,7 @@ export const SectionHeading: FC<SectionHeadingProps> = ({
   const textColor = isLight ? "text-[#0C0C0C]" : "text-[#D7E2EA]";
   const mutedColor = isLight ? "text-[#0C0C0C]/45" : "text-white/45";
   const ruleColor = isLight ? "bg-[#0C0C0C]/20" : "bg-white/20";
-  const ghostColor = isLight ? "text-[#0C0C0C]/[0.035]" : "text-white/[0.035]";
+
 
   return (
     <FadeIn y={30} delay={0.02} className={className}>
@@ -32,12 +32,7 @@ export const SectionHeading: FC<SectionHeadingProps> = ({
           align === "center" ? "mx-auto text-center items-center" : "items-start"
         } flex max-w-full flex-col gap-3 sm:gap-4`}
       >
-        <span
-          aria-hidden="true"
-          className={`pointer-events-none absolute -top-5 left-1/2 hidden -translate-x-1/2 select-none font-display text-7xl font-extrabold uppercase leading-none sm:block sm:text-8xl md:text-9xl ${ghostColor}`}
-        >
-          {words[0]}
-        </span>
+
 
         <div
           className={`relative flex max-w-full items-center gap-2 sm:gap-3 ${
@@ -56,7 +51,7 @@ export const SectionHeading: FC<SectionHeadingProps> = ({
         <h2
           className={`relative max-w-full font-display font-extrabold uppercase leading-[0.94] tracking-normal mt-4 text-balance ${textColor}`}
         >
-          <span className="block text-[clamp(1.5rem,8vw,5.75rem)] md:text-8xl lg:text-9xl">
+          <span className="block text-[clamp(2rem,7vw,5rem)] md:text-7xl lg:text-[5.5rem] xl:text-7xl">
             {words.map((word, index) => (
               <span key={`${word}-${index}`} className="inline-block mr-[0.16em]">
                 {word}

@@ -9,12 +9,7 @@ export const KnightFooter: FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-[#0C0C0C] pt-24 pb-12 overflow-hidden border-t border-white/5">
-
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-violet-600/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-rose-600/10 blur-[100px] rounded-full" />
-      </div>
+    <footer className="relative bg-black pt-24 pb-12 overflow-hidden border-t border-white/5">
 
 
       <motion.div
@@ -28,11 +23,11 @@ export const KnightFooter: FC = () => {
           <img
             src={knightImg}
             alt="The Knight"
-            className="w-full h-full object-contain object-bottom filter drop-shadow-[0_0_40px_rgba(182,0,168,0.25)] brightness-90 contrast-110"
+            className="w-full h-full object-contain object-bottom filter brightness-90 contrast-110"
             loading="lazy"
           />
 
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0C0C0C] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black to-transparent" />
         </motion.div>
       </motion.div>
 
@@ -40,7 +35,7 @@ export const KnightFooter: FC = () => {
         <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-2xl">
           <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold uppercase tracking-tighter text-[#D7E2EA] mb-6 leading-[0.9]">
             Building the <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#B600A8] to-[#7621B0]">Future</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">Future</span>
           </h2>
 
           <p className="max-w-md text-white/50 text-base sm:text-lg leading-relaxed mb-10">
@@ -73,11 +68,11 @@ export const KnightFooter: FC = () => {
               {["Home", "About", "Arsenal", "Expertise", "Projects"].map((item) => (
                 <li key={item}>
                   <a
-                    href={`#${item.toLowerCase()}`}
-                    className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-white/40 hover:text-[#B600A8] transition-colors relative group"
+                    href={item === "Home" ? "#hero" : `#${item.toLowerCase()}`}
+                    className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-white/40 hover:text-primary transition-colors relative group"
                   >
                     {item}
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#B600A8] transition-all group-hover:w-full" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary transition-all group-hover:w-full" />
                   </a>
                 </li>
               ))}

@@ -2,6 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { MagneticButton } from "./MagneticButton";
 
 const useActiveSection = (sectionIds: string[]) => {
   const [activeSection, setActiveSection] = useState("");
@@ -60,23 +61,13 @@ const NavBar: FC<{ navItems: string[] }> = ({ navItems }) => {
       {showHorizontal ? (
         <motion.nav
           key="top"
-          initial={{ opacity: 0, y: -12 }}
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20, scale: 0.95 }}
+          exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className={`fixed top-0 left-1/2 z-50 flex -translate-x-1/2 items-center justify-center ${
-            isMobile ? "w-[calc(100vw-1.5rem)] gap-3 px-4" : "gap-14 px-14"
-          } py-3 sm:py-4`}
-          style={{
-            background: "rgba(0,0,0,0.55)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            borderLeft: "0.5px solid rgba(255,255,255,0.08)",
-            borderRight: "0.5px solid rgba(255,255,255,0.08)",
-            borderBottom: "0.5px solid rgba(255,255,255,0.08)",
-            borderRadius: isMobile ? "0 0 1rem 1rem" : "0 0 1.5rem 1.5rem",
-            width: isMobile ? "calc(100vw - 1.5rem)" : "auto",
-          }}
+            isMobile ? "w-full gap-3 px-4" : "gap-14 px-14"
+          } py-3 sm:py-4 bg-black rounded-b-2xl md:rounded-b-3xl`}
         >
           {navItems.map((item) => (
             <HorizNavLink
@@ -90,24 +81,13 @@ const NavBar: FC<{ navItems: string[] }> = ({ navItems }) => {
       ) : (
         <motion.nav
           key="side"
-          initial={{ opacity: 0, x: -60 }}
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -60 }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed left-0 top-[42%] z-50 flex flex-col items-center py-6"
-          style={{
-            background: "#000000",
-            borderTop: "0.5px solid rgba(255,255,255,0.1)",
-            borderRight: "0.5px solid rgba(255,255,255,0.1)",
-            borderBottom: "0.5px solid rgba(255,255,255,0.1)",
-            borderRadius: "0 1.5rem 1.5rem 0",
-            transform: "translateY(-50%)",
-          }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed left-0 top-[42%] z-50 flex flex-col items-center py-6 bg-black rounded-r-2xl border-r border-y border-white/[0.08]"
+          style={{ transform: "translateY(-50%)" }}
         >
-          <span
-            className="block mb-4 w-1 h-1 rounded-full"
-            style={{ background: "rgba(225,218,190,0.3)" }}
-          />
           {vertNavItems.map((item) => (
             <VertNavLink
               key={item}
@@ -119,10 +99,6 @@ const NavBar: FC<{ navItems: string[] }> = ({ navItems }) => {
               }
             />
           ))}
-          <span
-            className="block mt-4 w-1 h-1 rounded-full"
-            style={{ background: "rgba(225,218,190,0.3)" }}
-          />
         </motion.nav>
       )}
     </AnimatePresence>
@@ -138,14 +114,13 @@ const HorizNavLink: FC<{ item: string; isMobile?: boolean; isActive?: boolean }>
     href={`#${item.toLowerCase()}`}
     className="relative group"
     style={{
-      fontFamily: "'DM Sans', sans-serif",
       fontSize: isMobile ? "9px" : "13px",
-      fontWeight: isActive ? 600 : 500,
+      fontWeight: 500,
       letterSpacing: isMobile ? "0.08em" : "0.18em",
       textTransform: "uppercase",
       color: isActive ? "rgba(225,218,190,1)" : "rgba(225,218,190,0.5)",
       textDecoration: "none",
-      transition: "color 0.3s ease, font-weight 0.3s ease",
+      transition: "color 0.3s ease",
     }}
     onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(225,218,190,1)")}
     onMouseLeave={(e) => {
@@ -154,12 +129,9 @@ const HorizNavLink: FC<{ item: string; isMobile?: boolean; isActive?: boolean }>
     }}
   >
     {item}
-    <span
-      className={`absolute -bottom-1 left-0 right-0 h-px origin-left transition-transform duration-300 ${
-        isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-      }`}
-      style={{ background: isActive ? "rgba(182,0,168,0.7)" : "rgba(225,218,190,0.4)" }}
-    />
+    {isActive && (
+      <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
+    )}
   </a>
 );
 
@@ -179,14 +151,12 @@ const VertNavLink: FC<{ item: string; isActive?: boolean }> = ({ item, isActive 
       onClick={handleClick}
       className="relative flex items-center justify-center"
       style={{
-        fontFamily: "'DM Sans', sans-serif",
         fontSize: "11px",
-        fontWeight: isActive ? 700 : 500,
+        fontWeight: 500,
         letterSpacing: "0.22em",
         textTransform: "uppercase",
-        color: isActive ? "rgba(182,0,168,1)" : "rgba(243, 233, 194, 0.65)",
+        color: isActive ? "rgba(225,218,190,1)" : "rgba(225,218,190,0.5)",
         textDecoration: "none",
-        listStyle: "none",
         writingMode: "vertical-rl",
         padding: "0.9rem 1.1rem",
         transition: "color 0.3s ease",
@@ -196,17 +166,13 @@ const VertNavLink: FC<{ item: string; isActive?: boolean }> = ({ item, isActive 
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLAnchorElement).style.color = isActive
-          ? "rgba(182,0,168,1)"
-          : "rgba(225,218,190,0.65)";
+          ? "rgba(225,218,190,1)"
+          : "rgba(225,218,190,0.5)";
       }}
     >
       {item}
       {isActive && (
-        <motion.span
-          layoutId="activeVertDot"
-          className="absolute left-1 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-[#B600A8]"
-          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        />
+        <span className="absolute left-1 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-primary" />
       )}
     </a>
   );
@@ -247,72 +213,29 @@ export const HeroSectionPrisma: FC = () => {
       style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
 
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0C0C0C]"
-        style={{ zIndex: 0 }}
-      />
+      
+
+      {/* Video background */}
       <video
         autoPlay
         loop
         muted
         playsInline
         poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230C0C0C' width='1920' height='1080'/%3E%3C/svg%3E"
-        className="absolute inset-0 w-full h-full object-cover opacity-75 z-[1]"
-        src="https://cdn.artstation.com/p/video_sources/000/146/133/2k.mp4"
+        className="absolute inset-0 w-full h-full object-cover opacity-60 z-[1]"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
       />
 
-      <div
-        className="absolute inset-0 pointer-events-none z-[1]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(to bottom, transparent 0, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px)",
-          opacity: 0.4,
-        }}
-      />
+      {/* Noise overlay */}
+      <div className="noise-overlay absolute inset-0 opacity-[0.5] mix-blend-overlay pointer-events-none z-[1]" />
 
+      {/* Simple gradient overlay */}
       <div
         className="absolute inset-0 pointer-events-none z-[2]"
         style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.72) 100%)",
+          background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.15) 100%)",
         }}
       />
-
-      <div
-        className="absolute inset-0 pointer-events-none z-[3]"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.12) 70%, transparent 100%)",
-        }}
-      />
-
-      <motion.div
-        variants={fadeIn(1)}
-        initial="hidden"
-        animate="visible"
-        className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px pointer-events-none z-[4]"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent, rgba(255,255,255,0.07) 30%, rgba(255,255,255,0.07) 70%, transparent)",
-        }}
-      />
-
-      {(
-        [
-          "top-5 left-5 border-t border-l rounded-tl",
-          "top-5 right-5 border-t border-r rounded-tr",
-          "bottom-5 left-5 border-b border-l rounded-bl",
-          "bottom-5 right-5 border-b border-r rounded-br",
-        ] as const
-      ).map((cls, i) => (
-        <motion.div
-          key={i}
-          variants={fadeIn(0.5)}
-          initial="hidden"
-          animate="visible"
-          className={`absolute z-[5] h-8 w-8 border-white/20 sm:h-12 sm:w-12 ${cls}`}
-        />
-      ))}
 
       <NavBar navItems={navItems} />
 
@@ -326,9 +249,8 @@ export const HeroSectionPrisma: FC = () => {
         <span
           className="inline-block w-[5px] h-[5px] rounded-full"
           style={{
-            background: "rgba(150,220,150,0.75)",
+            background: "rgba(150,220,150,0.6)",
             writingMode: "horizontal-tb",
-            animation: "heroPulse 2.5s ease-in-out infinite",
           }}
         />
         <span
@@ -363,16 +285,14 @@ export const HeroSectionPrisma: FC = () => {
             variants={slideUp}
             initial="hidden"
             animate="visible"
-            className="leading-[0.88] uppercase select-none"
+            className="leading-[0.88] select-none font-serif"
             style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: "clamp(3.4rem, 18vw, 12rem)",
-              letterSpacing: "0",
+              fontSize: "clamp(3.4rem, 16vw, 11rem)",
+              letterSpacing: "-0.03em",
               color: "#F0ECD8",
-              textShadow: "0 0 80px rgba(255,240,200,0.07)",
             }}
           >
-            Hi, I&apos;m Dhairya
+            Hi, I'm Dhairya
           </motion.h1>
         </div>
 
@@ -392,9 +312,8 @@ export const HeroSectionPrisma: FC = () => {
           >
             A{" "}
             <em
+              className="font-serif"
               style={{
-                fontFamily: "'DM Serif Display', Georgia, serif",
-                fontStyle: "italic",
                 color: "rgba(225,218,190,0.95)",
                 fontSize: "1.05em",
               }}
@@ -418,32 +337,34 @@ export const HeroSectionPrisma: FC = () => {
               Made in India · Available Worldwide
             </span>
 
-            <a
-              href="#projects"
-              className="group inline-flex items-center gap-2 rounded-full px-4 py-2 text-[10px] font-medium uppercase tracking-[0.14em] transition-all duration-300 sm:px-5 sm:text-[11px] sm:tracking-[0.18em]"
-              style={{
-                color: "rgba(225,218,190,0.85)",
-                border: "0.5px solid rgba(225,218,190,0.25)",
-                background: "transparent",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.color = "#0d0d0d";
-                el.style.background = "rgba(225,218,190,0.92)";
-                el.style.borderColor = "transparent";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.color = "rgba(225,218,190,0.85)";
-                el.style.background = "transparent";
-                el.style.borderColor = "rgba(225,218,190,0.25)";
-              }}
-            >
-              View work
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </a>
+            <MagneticButton>
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-2 rounded-full px-4 py-2 text-[10px] font-medium uppercase tracking-[0.14em] transition-all duration-300 sm:px-5 sm:text-[11px] sm:tracking-[0.18em]"
+                style={{
+                  color: "rgba(225,218,190,0.85)",
+                  border: "0.5px solid rgba(225,218,190,0.25)",
+                  background: "transparent",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "#0d0d0d";
+                  el.style.background = "rgba(225,218,190,0.92)";
+                  el.style.borderColor = "transparent";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.color = "rgba(225,218,190,0.85)";
+                  el.style.background = "transparent";
+                  el.style.borderColor = "rgba(225,218,190,0.25)";
+                }}
+              >
+                View work
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
+            </MagneticButton>
           </motion.div>
         </motion.div>
       </div>
@@ -457,28 +378,16 @@ export const HeroSectionPrisma: FC = () => {
         <div
           className="w-px h-9"
           style={{
-            background: "linear-gradient(to bottom, rgba(225,218,190,0.4), transparent)",
-            animation: "scrollPulse 2s ease-in-out infinite",
+            background: "linear-gradient(to bottom, rgba(225,218,190,0.3), transparent)",
           }}
         />
         <span
           className="text-[9px] font-medium tracking-[0.3em] uppercase mt-1"
-          style={{ color: "rgba(225,218,190,0.22)" }}
+          style={{ color: "rgba(225,218,190,0.2)" }}
         >
           Scroll
         </span>
       </motion.div>
-
-      <style>{`
-        @keyframes heroPulse {
-          0%, 100% { opacity: 0.6; transform: scale(1); }
-          50%       { opacity: 1;   transform: scale(1.35); }
-        }
-        @keyframes scrollPulse {
-          0%, 100% { opacity: 0.55; transform: scaleY(1);    transform-origin: top; }
-          50%       { opacity: 1;   transform: scaleY(1.15); }
-        }
-      `}</style>
     </section>
   );
 };

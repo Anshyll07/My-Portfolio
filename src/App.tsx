@@ -15,6 +15,7 @@ import { Preloader } from "./components/Preloader";
 import { Routes, Route } from "react-router-dom";
 import { MotionConfig } from "framer-motion";
 import { useState, useEffect } from "react";
+import Lenis from 'lenis';
 
 const MainPortfolio = () => (
   <main className="w-full overflow-x-clip bg-[#0C0C0C]">
@@ -42,7 +43,27 @@ export default function App() {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile(); // Check on mount
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+
+    // Initialize Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+      touchMultiplier: 2,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      lenis.destroy();
+    };
   }, []);
 
   return (

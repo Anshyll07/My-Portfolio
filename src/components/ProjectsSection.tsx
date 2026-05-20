@@ -4,6 +4,7 @@ import { SectionHeading } from "./SectionHeading";
 import { motion } from "framer-motion";
 import { AudioSeparatorModal } from "./AudioSeparatorModal";
 import { ArtisanConnectModal } from "./ArtisanConnectModal";
+import { MagneticButton } from "./MagneticButton";
 import { Play, Eye } from "lucide-react";
 
 // @ts-ignore
@@ -76,6 +77,7 @@ const PROJECTS: Project[] = [
 export const ProjectsSection: FC = () => {
   const [isAudioModalOpen, setIsAudioModalOpen] = useState(false);
   const [isArtisanModalOpen, setIsArtisanModalOpen] = useState(false);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -84,7 +86,7 @@ export const ProjectsSection: FC = () => {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative min-h-screen px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-28 bg-[#0C0C0C] overflow-hidden"
+      className="relative min-h-screen px-6 sm:px-12 md:px-20 py-24 sm:py-32 md:py-40 bg-[#0C0C0C] overflow-hidden"
     >
       <AudioSeparatorModal
         isOpen={isAudioModalOpen}
@@ -96,11 +98,7 @@ export const ProjectsSection: FC = () => {
       />
 
 
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-64 left-[10%] h-[520px] w-[800px] rounded-full bg-gradient-to-r from-[#B600A8]/10 via-[#22d3ee]/5 to-transparent blur-3xl" />
-        <div className="absolute -bottom-64 right-[5%] h-[520px] w-[760px] rounded-full bg-gradient-to-r from-[#BE4C00]/10 via-[#7621B0]/5 to-transparent blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.08] bg-noise mix-blend-overlay" />
-      </div>
+      <div className="absolute inset-0 opacity-[0.03] bg-noise pointer-events-none" />
 
 
 
@@ -133,7 +131,13 @@ export const ProjectsSection: FC = () => {
             return (
               <FadeIn key={project.id} y={40} delay={0.08 + idx * 0.1}>
 
-                <div className="relative">
+                <div
+                  className={`relative transition-opacity duration-500 ${
+                    hoveredId !== null && hoveredId !== project.id ? "opacity-30" : "opacity-100"
+                  }`}
+                  onMouseEnter={() => setHoveredId(project.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
 
                   <motion.div
                     className={`absolute ${imgPosition} z-[1] pointer-events-none hidden sm:block`}
@@ -143,15 +147,10 @@ export const ProjectsSection: FC = () => {
                       transition={{ duration: 5 + idx, repeat: Infinity, ease: "easeInOut" }}
                       src={project.image}
                       alt=""
-                      className="w-[280px] md:w-[380px] lg:w-[460px] xl:w-[520px] opacity-[0.35]"
-                      style={{ filter: `drop-shadow(0 0 50px ${accent}25)` }}
+                      className="w-[280px] md:w-[380px] lg:w-[460px] xl:w-[520px] opacity-[0.2]"
+                      style={{ filter: `drop-shadow(0 0 30px ${accent}10)` }}
                       loading="lazy"
                       decoding="async"
-                    />
-
-                    <div
-                      className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[70%] h-[35%] blur-[60px] rounded-full opacity-20"
-                      style={{ background: accent }}
                     />
                   </motion.div>
 
@@ -159,10 +158,7 @@ export const ProjectsSection: FC = () => {
                   <motion.div
                     whileHover={{ scale: 1.01 }}
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="group relative overflow-hidden rounded-[20px] sm:rounded-[28px] border border-white/[0.07] bg-white/[0.02] backdrop-blur-md"
-                    style={{
-                      boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.05)`,
-                    }}
+                    className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.1]"
                   >
 
                     <div
@@ -173,12 +169,7 @@ export const ProjectsSection: FC = () => {
                     />
 
 
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                      style={{
-                        background: `radial-gradient(ellipse at ${isEven ? '20%' : '80%'} 50%, ${accent}08, transparent 70%)`,
-                      }}
-                    />
+
 
 
                     <div
@@ -197,17 +188,13 @@ export const ProjectsSection: FC = () => {
 
                       <div className="flex items-center gap-3 mb-5">
                         <span
-                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] border backdrop-blur-md"
+                          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] border"
                           style={{
                             color: accent,
                             borderColor: `${accent}30`,
-                            background: `${accent}10`,
+                            background: `${accent}08`,
                           }}
                         >
-                          <span
-                            className="w-1.5 h-1.5 rounded-full"
-                            style={{ background: accent }}
-                          />
                           {project.category}
                         </span>
                         <span className="text-[10px] font-medium text-white/25 tracking-wider">
@@ -216,20 +203,12 @@ export const ProjectsSection: FC = () => {
                       </div>
 
 
-                      <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold uppercase text-[#D7E2EA] mb-4 sm:mb-6 tracking-tight leading-[0.95] group-hover:text-white transition-colors duration-300">
+                      <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-[#D7E2EA] mb-4 sm:mb-6 tracking-tight leading-[1.1] group-hover:text-white transition-colors duration-300">
                         {project.name}
                       </h3>
 
 
-                      <div className="w-full max-w-lg h-px mb-5 overflow-hidden">
-                        <motion.div
-                          className="h-full origin-left"
 
-                          style={{
-                            background: `linear-gradient(to right, ${accent}50, transparent)`,
-                          }}
-                        />
-                      </div>
 
 
                       <p className="text-sm sm:text-base text-white/45 leading-relaxed max-w-lg mb-8 group-hover:text-white/65 transition-colors duration-300">
@@ -238,62 +217,68 @@ export const ProjectsSection: FC = () => {
 
 
                       <div className="flex flex-wrap items-center gap-3">
-                        <motion.a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/80 border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 backdrop-blur-md"
-                        >
-                          View Project
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                            className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                          >
-                            <path
-                              d="M1 11L11 1M11 1H3.5M11 1V8.5"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </motion.a>
-
-                        {project.id === "03" && (
-                          <motion.button
+                        <MagneticButton>
+                          <motion.a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setIsAudioModalOpen(true);
-                            }}
-                            className="flex items-center gap-2 px-4 py-3 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/25 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest text-rose-300 transition-all shadow-[0_0_20px_rgba(244,63,94,0.08)]"
+                            className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/80 border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300"
                           >
-                            <Play size={12} fill="currentColor" />
-                            Live Demo
-                          </motion.button>
+                            View Project
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 12 12"
+                              fill="none"
+                              className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                            >
+                              <path
+                                d="M1 11L11 1M11 1H3.5M11 1V8.5"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </motion.a>
+                        </MagneticButton>
+
+                        {project.id === "03" && (
+                          <MagneticButton>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setIsAudioModalOpen(true);
+                              }}
+                              className="flex items-center gap-2 px-4 py-3 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/25 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest text-rose-300 transition-all"
+                            >
+                              <Play size={12} fill="currentColor" />
+                              Live Demo
+                            </motion.button>
+                          </MagneticButton>
                         )}
 
                         {project.id === "02" && (
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setIsArtisanModalOpen(true);
-                            }}
-                            className="flex items-center gap-2 px-4 py-3 bg-violet-500/15 hover:bg-violet-500/25 border border-violet-500/25 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest text-violet-300 transition-all shadow-[0_0_20px_rgba(139,92,246,0.08)]"
-                          >
-                            <Eye size={12} />
-                            View Work
-                          </motion.button>
+                          <MagneticButton>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setIsArtisanModalOpen(true);
+                              }}
+                              className="flex items-center gap-2 px-4 py-3 bg-violet-500/15 hover:bg-violet-500/25 border border-violet-500/25 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest text-violet-300 transition-all"
+                            >
+                              <Eye size={12} />
+                              View Work
+                            </motion.button>
+                          </MagneticButton>
                         )}
                       </div>
                     </div>
