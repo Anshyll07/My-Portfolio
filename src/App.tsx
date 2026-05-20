@@ -13,6 +13,8 @@ import { KnightFooter } from "./components/KnightFooter";
 
 import { Preloader } from "./components/Preloader";
 import { Routes, Route } from "react-router-dom";
+import { MotionConfig } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const MainPortfolio = () => (
   <main className="w-full overflow-x-clip bg-[#0C0C0C]">
@@ -34,13 +36,22 @@ const MainPortfolio = () => (
 );
 
 export default function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check on mount
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
-    <>
+    <MotionConfig reducedMotion={isMobile ? "always" : "user"}>
       <Preloader />
       <Routes>
         <Route path="/" element={<MainPortfolio />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </>
+    </MotionConfig>
   );
 }

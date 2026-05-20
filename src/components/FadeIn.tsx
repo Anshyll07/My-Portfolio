@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, ReactNode, FC } from "react";
+import { useRef, ReactNode, FC, useState, useEffect } from "react";
 
 interface FadeInProps {
   children: ReactNode;
@@ -22,6 +22,20 @@ export const FadeIn: FC<FadeInProps> = ({
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "50px", amount: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check on mount
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  if (isMobile) {
+    const Tag = as as any;
+    return <Tag className={className}>{children}</Tag>;
+  }
+
   const Component = motion.create(as);
 
   return (

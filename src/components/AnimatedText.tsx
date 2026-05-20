@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import React, { useRef, FC } from "react";
+import React, { useRef, FC, useState, useEffect } from "react";
 
 interface AnimatedTextProps {
   text: string;
@@ -13,6 +13,23 @@ export const AnimatedText: FC<AnimatedTextProps> = ({ text, className = "", styl
     target: containerRef,
     offset: ["start 0.8", "end 0.2"],
   });
+  
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check on mount
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <p className={className} style={style}>
+        {text}
+      </p>
+    );
+  }
 
   const words = text.split(" ");
 
