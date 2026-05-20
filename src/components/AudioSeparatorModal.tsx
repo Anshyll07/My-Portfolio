@@ -1,6 +1,6 @@
-import { FC, useState, useEffect, useRef } from "react";
+import { FC, useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Play, Pause, Music, User, Drum, Guitar, Eye,  } from "lucide-react";
+import { X, Play, Pause, Music, User, Drum, Guitar, Eye } from "lucide-react";
 
 // @ts-ignore
 import background_music_path from "../assets/audio_seperator_data/background_music_only.wav";
@@ -25,12 +25,35 @@ const AUDIO_FILES: AudioFile[] = [
   { name: "Backing", label: "Background Music", icon: Music, path: background_music_path },
 ];
 
+export interface AudioTrackHandle {
+  play: () => void;
+  pause: () => void;
+  reset: () => void;
+}
+
 export const AudioSeparatorModal: FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   const [revealed, setRevealed] = useState(false);
+  const trackRefs = useRef<Array<AudioTrackHandle | null>>([]);
+  const [isMasterPlaying, setIsMasterPlaying] = useState(false);
   
   const handleClose = () => {
+    trackRefs.current.forEach(r => r?.pause());
+    setIsMasterPlaying(false);
     setRevealed(false);
     onClose();
+  };
+
+  const toggleMasterPlay = () => {
+    if (isMasterPlaying) {
+      trackRefs.current.forEach(r => r?.pause());
+      setIsMasterPlaying(false);
+    } else {
+      trackRefs.current.forEach(r => {
+        r?.reset();
+        r?.play();
+      });
+      setIsMasterPlaying(true);
+    }
   };
 
   return (
@@ -88,9 +111,24 @@ export const AudioSeparatorModal: FC<{ isOpen: boolean; onClose: () => void }> =
                 )}
               </div>
 
+              <div className="flex justify-center mt-2 mb-2">
+                <button
+                  onClick={toggleMasterPlay}
+                  className="px-6 py-3 bg-rose-500 hover:bg-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.3)] text-white rounded-full font-bold uppercase tracking-widest text-xs flex items-center gap-2 transition-all active:scale-95"
+                >
+                  {isMasterPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}
+                  <span className="ml-1">{isMasterPlaying ? "Pause Full Song" : "Play Full Song"}</span>
+                </button>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">
                 {AUDIO_FILES.map((file, idx) => (
-                  <AudioTrack key={file.name} file={file} index={idx} />
+                  <AudioTrack 
+                    key={file.name} 
+                    file={file} 
+                    index={idx} 
+                    ref={(el) => { trackRefs.current[idx] = el; }} 
+                  />
                 ))}
               </div>
 
@@ -113,12 +151,29 @@ export const AudioSeparatorModal: FC<{ isOpen: boolean; onClose: () => void }> =
   );
 };
 
-const AudioTrack: FC<{ file: AudioFile; index: number }> = ({ file }) => {
+const AudioTrack = forwardRef<AudioTrackHandle, { file: AudioFile; index: number }>(({ file }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    play: () => {
+      audioRef.current?.play();
+      setIsPlaying(true);
+    },
+    pause: () => {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    },
+    reset: () => {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        setProgress(0);
+      }
+    }
+  }));
 
   useEffect(() => {
     const audio = new Audio(file.path);
@@ -213,10 +268,12 @@ const AudioTrack: FC<{ file: AudioFile; index: number }> = ({ file }) => {
       </div>
     </div>
   );
-};
+});
 
-const formatTime = (seconds: number) => {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
+AudioTrack.displayName = "AudioTrack";
+
+function formatTime(seconds: number) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
