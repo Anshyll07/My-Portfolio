@@ -2,7 +2,7 @@ import { FC, useRef } from "react";
 import { FadeIn } from "./FadeIn";
 import { SectionHeading } from "./SectionHeading";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useState, useEffect } from "react";
+
 
 // @ts-ignore
 import arsenalToolkit from "../assets/arsenal_toolkit.png";
